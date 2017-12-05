@@ -54,7 +54,6 @@ variable "ssl_certificate_id" {
 /**
  * Resources.
  */
-
 resource "aws_elb" "main" {
   name = "${var.name}"
 
