@@ -157,7 +157,7 @@ resource "aws_ecs_service" "main" {
 module "task" {
   source = "../task"
 
-  name          = "${coalesce(var.name, replace(var.image, "/", "-"))}"
+  name          = "${coalesce(var.name, replace(dirname(var.image), "/", "-"))}"
   image         = "${var.image}"
   image_version = "${var.version}"
   command       = "${var.command}"
