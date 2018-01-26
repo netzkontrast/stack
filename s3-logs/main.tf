@@ -8,7 +8,7 @@ variable "account_id" {
 }
 
 variable "logs_expiration_enabled" {
-  default = false
+  default = true
 }
 
 variable "logs_expiration_days" {
