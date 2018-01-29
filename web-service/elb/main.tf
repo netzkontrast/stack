@@ -62,9 +62,9 @@ resource "aws_elb" "main" {
   subnets                   = ["${split(",", var.subnet_ids)}"]
   security_groups           = ["${split(",",var.security_groups)}"]
 
-  idle_timeout                = 30
+  idle_timeout                = 120
   connection_draining         = true
-  connection_draining_timeout = 15
+  connection_draining_timeout = 60
 
   listener {
     lb_port           = 80
