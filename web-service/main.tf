@@ -229,3 +229,7 @@ output "internal_fqdn" {
 output "task_image_version" {
   value = "${module.task.task_image_version}"
 }
+
+output "version" {
+  value = "${var.version}"
+}
