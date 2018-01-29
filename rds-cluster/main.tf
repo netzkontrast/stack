@@ -138,12 +138,22 @@ resource "aws_rds_cluster" "main" {
   final_snapshot_identifier = "${var.name}-finalsnapshot"
 }
 
+
+
 resource "aws_route53_record" "main" {
   zone_id = "${var.zone_id}"
   name    = "${coalesce(var.dns_name, var.name)}"
   type    = "CNAME"
   ttl     = 300
   records = ["${aws_rds_cluster.main.endpoint}"]
+}
+
+resource "aws_route53_record" "read" {
+  zone_id = "${var.zone_id}"
+  name    = "read-${coalesce(var.dns_name, var.name)}"
+  type    = "CNAME"
+  ttl     = 300
+  records = ["${aws_rds_cluster.main.reader_endpoint}"]
 }
 
 // The cluster identifier.
@@ -153,6 +163,10 @@ output "id" {
 
 output "endpoint" {
   value = "${aws_rds_cluster.main.endpoint}"
+}
+
+output "reader_endpoint" {
+  value = "${aws_rds_cluster.main.reader_endpoint}"
 }
 
 output "fqdn" {
