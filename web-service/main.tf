@@ -225,3 +225,7 @@ output "external_fqdn" {
 output "internal_fqdn" {
   value = "${module.elb.internal_fqdn}"
 }
+
+output "task_image_version" {
+  value = "${module.task.task_image_version}"
+}

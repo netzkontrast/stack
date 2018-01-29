@@ -129,3 +129,7 @@ output "arn" {
 output "revision" {
   value = "${aws_ecs_task_definition.main.revision}"
 }
+
+output "task_image_version" {
+  value = "${var.image_version}"
+}
