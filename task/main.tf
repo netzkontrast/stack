@@ -83,7 +83,6 @@ resource "aws_ecs_task_definition" "main" {
   task_role_arn = "${var.role}"
 
   lifecycle {
-    ignore_changes        = ["image"]
     create_before_destroy = true
   }
 
