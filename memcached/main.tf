@@ -129,14 +129,6 @@ resource "aws_route53_record" "main" {
   name    = "${coalesce(var.dns_name, var.name)}"
   type    = "CNAME"
   ttl     = 300
-  records = ["${aws_elasticache_cluster.memcached.configuration_endpoint}"]
-}
-
-resource "aws_route53_record" "read" {
-  zone_id = "${var.zone_id}"
-  name    = "read-${coalesce(var.dns_name, var.name)}"
-  type    = "CNAME"
-  ttl     = 300
   records = ["${aws_elasticache_cluster.memcached.cluster_address}"]
 }
 
