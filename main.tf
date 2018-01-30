@@ -245,10 +245,17 @@ output "bastion_ip" {
   value = "${module.bastion.external_ip}"
 }
 
+
 // The internal route53 zone ID.
 output "zone_id" {
   value = "${module.dns.zone_id}"
 }
+
+// Security group for internal ELBs.
+output "internal_ssh" {
+  value = "${module.security_groups.internal_ssh}"
+}
+
 
 // Security group for internal ELBs.
 output "internal_elb" {
