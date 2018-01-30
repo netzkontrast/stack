@@ -53,6 +53,7 @@ variable "cluster" {
 
 variable "dns_name" {
   description = "The DNS name to use, e.g nginx"
+  default     = ""
 }
 
 variable "log_bucket" {
