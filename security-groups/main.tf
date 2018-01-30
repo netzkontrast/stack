@@ -24,8 +24,8 @@ resource "aws_security_group" "internal_elb" {
   description = "Allows internal ELB traffic"
 
   ingress {
-    from_port   = 80
-    to_port     = 80
+    from_port   = 0
+    to_port     = 0
     protocol    = "tcp"
     cidr_blocks = ["${var.cidr}"]
   }
