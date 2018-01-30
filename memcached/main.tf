@@ -10,10 +10,6 @@ variable "zone_id" {}
 
 variable "cache_identifier" {}
 
-variable "parameter_group" {
-  default = "memcached1.4"
-}
-
 variable "subnet_ids" {}
 
 variable "maintenance_window" {
@@ -77,7 +73,6 @@ resource "aws_elasticache_cluster" "memcached" {
   node_type              = "${var.instance_type}"
   num_cache_nodes        = "${var.desired_clusters}"
   az_mode                = "${var.desired_clusters == 1 ? "single-az" : "cross-az"}"
-  parameter_group_name   = "${var.parameter_group}"
   subnet_group_name      = "${aws_elasticache_subnet_group.memached.name}"
   security_group_ids     = ["${aws_security_group.memcached.id}"]
   maintenance_window     = "${var.maintenance_window}"
