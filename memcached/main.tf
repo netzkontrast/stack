@@ -61,7 +61,7 @@ resource "aws_security_group" "memcached" {
 resource "aws_elasticache_subnet_group" "memached" {
   name        = "${var.name}"
   description = "Memcache cluster subnet group"
-  subnet_ids  = ["${var.subnet_ids}"]
+  subnet_ids  = ["${split(",", var.subnet_ids)}"]
 }
 
 # ElastiCache resources
