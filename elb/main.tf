@@ -19,6 +19,11 @@ variable "environment" {
 variable "port" {
   description = "Instance port"
 }
+variable "serviceport" {
+  description = "Service port"
+  default = "80"
+}
+
 
 variable "security_groups" {
   description = "Comma separated list of security group IDs"
@@ -61,7 +66,7 @@ resource "aws_elb" "main" {
   connection_draining_timeout = 15
 
   listener {
-    lb_port           = 80
+    lb_port           = "${var.serviceport}"
     lb_protocol       = "${var.protocol}"
     instance_port     = "${var.port}"
     instance_protocol = "${var.protocol}"

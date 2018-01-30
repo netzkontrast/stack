@@ -74,6 +74,11 @@ variable "container_port" {
   default     = 3000
 }
 
+variable "serviceport" {
+  description = "The Service port"
+  default     = 80
+}
+
 variable "command" {
   description = "The raw json of the task command"
   default     = "[]"
@@ -172,6 +177,7 @@ module "elb" {
 
   name            = "${module.task.name}"
   port            = "${var.port}"
+  serviceport     = "${var.serviceport}"
   environment     = "${var.environment}"
   subnet_ids      = "${var.subnet_ids}"
   security_groups = "${var.security_groups}"
