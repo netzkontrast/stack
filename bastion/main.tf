@@ -82,10 +82,18 @@ resource "aws_instance" "bastion" {
     Environment = "${var.environment}"
   }
 
-  provisioner "local-exec" {
-    command = "${file(format("%s/provision.sh", path.module))}"
-    interpreter = ["/bin/bash", "-c"]
+  provisioner "file" {
+    source      = "${format("%s/provision.sh", path.module)}"
+    destination = "/tmp/provision.sh"
   }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/provision.sh",
+      "/tmp/provision.sh",
+    ]
+  }
+
 }
 
 resource "aws_eip" "bastion" {
