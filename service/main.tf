@@ -113,6 +113,11 @@ variable "iam_role" {
   description = "IAM Role ARN to use"
 }
 
+variable "hostname" {
+  description = "hostname of the Docker-Container"
+  default = ""
+}
+
 variable "zone_id" {
   description = "The zone ID to create the record in"
 }
@@ -161,6 +166,7 @@ module "task" {
   env_vars      = "${var.env_vars}"
   memory        = "${var.memory}"
   cpu           = "${var.cpu}"
+  hostname      = "${coalesce(var.hostname, var.name)}"
 
   ports = <<EOF
   [

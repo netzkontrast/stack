@@ -72,6 +72,12 @@ variable "role" {
   default     = ""
 }
 
+
+variable "hostname" {
+  description = "hostname of the Docker-Container"
+  default = ""
+}
+
 /**
  * Resources.
  */
@@ -96,6 +102,7 @@ resource "aws_ecs_task_definition" "main" {
     "image": "${var.image}:${var.image_version}",
     "memory": ${var.memory},
     "name": "${var.name}",
+    "hostname": "${coalesce(var.hostname, var.name)}",
     "portMappings": ${var.ports},
     "entryPoint": ${var.entry_point},
     "mountPoints": [],
