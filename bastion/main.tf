@@ -92,7 +92,7 @@ resource "aws_eip" "bastion" {
 resource "aws_route53_record" "main" {
   zone_id = "${var.zone_id}"
   name    = "${var.dns_name}"
-  type    = "A"
+  type    = "CNAME"
   records = ["${aws_eip.bastion.public_ip}"]
 }
 
