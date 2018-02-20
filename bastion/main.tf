@@ -50,6 +50,16 @@ variable "environment" {
   description = "Environment tag, e.g prod"
 }
 
+
+variable "dns_name" {
+  description = "The subdomain under which the host is exposed externally, defaults to bastion"
+  default = "bastion"
+}
+
+variable "zone_id" {
+  description = "Route53 zone ID to use for dns_name"
+}
+
 module "ami" {
   source        = "github.com/terraform-community-modules/tf_aws_ubuntu_ami/ebs"
   region        = "${var.region}"
@@ -77,6 +87,15 @@ resource "aws_eip" "bastion" {
   instance = "${aws_instance.bastion.id}"
   vpc      = true
 }
+
+
+resource "aws_route53_record" "main" {
+  zone_id = "${var.zone_id}"
+  name    = "${var.dns_name}"
+  type    = "A"
+  records = ["${aws_eip.bastion.public_ip}"]
+}
+
 
 // Bastion external IP address.
 output "external_ip" {

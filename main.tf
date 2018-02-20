@@ -143,6 +143,10 @@ variable "logs_expiration_enabled" {
   default = false
 }
 
+variable "external_zone_id" {
+  description = "The zone ID to create the record in"
+}
+
 variable "logs_expiration_days" {
   default = 30
 }
@@ -180,6 +184,8 @@ module "bastion" {
   subnet_id       = "${element(module.vpc.external_subnets, 0)}"
   key_name        = "${var.key_name}"
   environment     = "${var.environment}"
+  zone_id         = "${var.external_zone_id}"
+
 }
 
 module "dhcp" {
