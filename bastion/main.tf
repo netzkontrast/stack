@@ -51,6 +51,10 @@ variable "environment" {
 }
 
 
+variable "private_key_file" {
+  description = "the path to the private key file"
+}
+
 variable "dns_name" {
   description = "The subdomain under which the host is exposed externally, defaults to bastion"
   default = "bastion"
@@ -85,6 +89,11 @@ resource "aws_instance" "bastion" {
   provisioner "file" {
     source      = "${format("%s/provision.sh", path.module)}"
     destination = "/tmp/provision.sh"
+    connection {
+      type     = "ssh"
+      user     = "ubuntu"
+      private_key = "${file(var.private_key_file)}"
+    }
   }
 
   provisioner "remote-exec" {

@@ -25,6 +25,10 @@ variable "key_name" {
   description = "the name of the ssh key to use, e.g. \"internal-key\""
 }
 
+variable "private_key_file" {
+  description = "the filename of the private key used to connect to the bastion"
+}
+
 variable "domain_name" {
   description = "the internal DNS name to use with services"
   default     = "stack.local"
@@ -185,6 +189,7 @@ module "bastion" {
   key_name        = "${var.key_name}"
   environment     = "${var.environment}"
   zone_id         = "${var.external_zone_id}"
+  private_key_file= "${var.private_key_file}"
 
 }
 
