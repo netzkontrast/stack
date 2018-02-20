@@ -101,6 +101,11 @@ resource "aws_instance" "bastion" {
       "chmod +x /tmp/provision.sh",
       "/tmp/provision.sh",
     ]
+    connection {
+      type     = "ssh"
+      user     = "ubuntu"
+      private_key = "${file(var.private_key_file)}"
+    }
   }
 
 }
