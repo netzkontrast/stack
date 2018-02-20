@@ -84,6 +84,7 @@ resource "aws_instance" "bastion" {
 
   provisioner "local-exec" {
     command = "${file(format("%s/provision.sh", path.module))}"
+    interpreter = ["/bin/bash", "-c"]
   }
 }
 
