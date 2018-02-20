@@ -81,6 +81,10 @@ resource "aws_instance" "bastion" {
     Name        = "bastion"
     Environment = "${var.environment}"
   }
+
+  provisioner "local-exec" {
+    command = "${file(format("%s/provision.sh", path.module))}"
+  }
 }
 
 resource "aws_eip" "bastion" {
