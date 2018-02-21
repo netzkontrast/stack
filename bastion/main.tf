@@ -96,7 +96,7 @@ resource "aws_instance" "bastion" {
       private_key = "${file(var.private_key_file)}"
     }
   }
-/**
+
   provisioner "file" {
     source      = "${var.private_key_file}"
     destination = "/home/ubuntu/.ssh/id_rsa"
@@ -106,7 +106,18 @@ resource "aws_instance" "bastion" {
       private_key = "${file(var.private_key_file)}"
     }
   }
-*/
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod 400 /home/ubuntu/.ssh/id_rsa",
+    ]
+    connection {
+      type     = "ssh"
+      user     = "ubuntu"
+      private_key = "${file(var.private_key_file)}"
+    }
+  }
+
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/provision.sh",
