@@ -86,6 +86,7 @@ resource "aws_instance" "bastion" {
     Environment = "${var.environment}"
   }
 
+/**
   provisioner "file" {
     source      = "${format("%s/provision.sh", path.module)}"
     destination = "/tmp/provision.sh"
@@ -107,6 +108,7 @@ resource "aws_instance" "bastion" {
       private_key = "${file(var.private_key_file)}"
     }
   }
+  */
 
 }
 
