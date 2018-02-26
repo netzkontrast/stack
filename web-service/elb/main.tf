@@ -62,13 +62,11 @@ resource "aws_lb" "main" {
   name = "${var.name}"
 
   internal                  = false
-  cross_zone_load_balancing = true
   subnets                   = ["${split(",", var.subnet_ids)}"]
   security_groups           = ["${split(",",var.security_groups)}"]
 
   idle_timeout                = 120
-  connection_draining         = true
-  connection_draining_timeout = 60
+
 
 
   access_logs {
