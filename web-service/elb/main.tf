@@ -54,7 +54,7 @@ variable "ssl_certificate_id" {
 /**
  * Resources.
  */
-resource "aws_elb" "main" {
+resource "aws_alb" "main" {
   name = "${var.name}"
 
   internal                  = false
@@ -106,8 +106,8 @@ resource "aws_route53_record" "external" {
   type    = "A"
 
   alias {
-    zone_id                = "${aws_elb.main.zone_id}"
-    name                   = "${aws_elb.main.dns_name}"
+    zone_id                = "${aws_alb.main.zone_id}"
+    name                   = "${aws_alb.main.dns_name}"
     evaluate_target_health = false
   }
 }
@@ -118,8 +118,8 @@ resource "aws_route53_record" "internal" {
   type    = "A"
 
   alias {
-    zone_id                = "${aws_elb.main.zone_id}"
-    name                   = "${aws_elb.main.dns_name}"
+    zone_id                = "${aws_alb.main.zone_id}"
+    name                   = "${aws_alb.main.dns_name}"
     evaluate_target_health = false
   }
 }
@@ -130,17 +130,17 @@ resource "aws_route53_record" "internal" {
 
 // The ELB name.
 output "name" {
-  value = "${aws_elb.main.name}"
+  value = "${aws_alb.main.name}"
 }
 
 // The ELB ID.
 output "id" {
-  value = "${aws_elb.main.id}"
+  value = "${aws_alb.main.id}"
 }
 
 // The ELB dns_name.
 output "dns" {
-  value = "${aws_elb.main.dns_name}"
+  value = "${aws_alb.main.dns_name}"
 }
 
 // FQDN built using the zone domain and name (external)
@@ -155,5 +155,5 @@ output "internal_fqdn" {
 
 // The zone id of the ELB
 output "zone_id" {
-  value = "${aws_elb.main.zone_id}"
+  value = "${aws_alb.main.zone_id}"
 }
