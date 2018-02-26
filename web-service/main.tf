@@ -81,6 +81,10 @@ variable "internal_zone_id" {
   description = "The zone ID to create the record in"
 }
 
+variable "vpc_id" {
+  description = "id of vpc"
+}
+
 /**
  * Options.
  */
@@ -190,6 +194,7 @@ module "elb" {
   security_groups    = "${var.security_groups}"
   log_bucket         = "${var.log_bucket}"
   ssl_certificate_id = "${var.ssl_certificate_id}"
+  vpc_id             = "${var.vpc_id}"
 }
 
 /**

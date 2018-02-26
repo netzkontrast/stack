@@ -16,6 +16,10 @@ variable "environment" {
   description = "Environment tag, e.g prod"
 }
 
+variable "vpc_id" {
+  description = "id of vpc"
+}
+
 variable "port" {
   description = "Instance port"
 }
@@ -54,7 +58,7 @@ variable "ssl_certificate_id" {
 /**
  * Resources.
  */
-resource "aws_alb" "main" {
+resource "aws_lb" "main" {
   name = "${var.name}"
 
   internal                  = false
@@ -66,28 +70,6 @@ resource "aws_alb" "main" {
   connection_draining         = true
   connection_draining_timeout = 60
 
-  listener {
-    lb_port           = 80
-    lb_protocol       = "http"
-    instance_port     = "${var.port}"
-    instance_protocol = "http"
-  }
-
-  listener {
-    lb_port            = 443
-    lb_protocol        = "https"
-    instance_port      = "${var.port}"
-    instance_protocol  = "http"
-    ssl_certificate_id = "${var.ssl_certificate_id}"
-  }
-
-  health_check {
-    healthy_threshold   = 2
-    unhealthy_threshold = 2
-    timeout             = 5
-    target              = "HTTP:${var.port}${var.healthcheck}"
-    interval            = 30
-  }
 
   access_logs {
     bucket = "${var.log_bucket}"
@@ -100,14 +82,46 @@ resource "aws_alb" "main" {
   }
 }
 
+resource "aws_lb_target_group" "main" {
+  name = "${var.name}-tg"
+  port     = 80
+  protocol = "HTTP"
+  health_check {
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    timeout             = 5
+    port                = "${var.port}"
+    path                = "${var.healthcheck}"
+    interval            = 30
+  }
+  vpc_id   = "${var.vpc_id}"
+}
+
+
+
+resource "aws_lb_listener" "main" {
+  load_balancer_arn = "${aws_lb.main.arn}"
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2015-05"
+  certificate_arn   = "${var.ssl_certificate_id}"
+
+  default_action {
+    target_group_arn = "${aws_lb_target_group.main.arn}"
+    type             = "forward"
+  }
+}
+
+
+
 resource "aws_route53_record" "external" {
   zone_id = "${var.external_zone_id}"
   name    = "${var.external_dns_name}"
   type    = "A"
 
   alias {
-    zone_id                = "${aws_alb.main.zone_id}"
-    name                   = "${aws_alb.main.dns_name}"
+    zone_id                = "${aws_lb.main.zone_id}"
+    name                   = "${aws_lb.main.dns_name}"
     evaluate_target_health = false
   }
 }
@@ -118,8 +132,8 @@ resource "aws_route53_record" "internal" {
   type    = "A"
 
   alias {
-    zone_id                = "${aws_alb.main.zone_id}"
-    name                   = "${aws_alb.main.dns_name}"
+    zone_id                = "${aws_lb.main.zone_id}"
+    name                   = "${aws_lb.main.dns_name}"
     evaluate_target_health = false
   }
 }
@@ -130,17 +144,17 @@ resource "aws_route53_record" "internal" {
 
 // The ELB name.
 output "name" {
-  value = "${aws_alb.main.name}"
+  value = "${aws_lb.main.name}"
 }
 
 // The ELB ID.
 output "id" {
-  value = "${aws_alb.main.id}"
+  value = "${aws_lb.main.id}"
 }
 
 // The ELB dns_name.
 output "dns" {
-  value = "${aws_alb.main.dns_name}"
+  value = "${aws_lb.main.dns_name}"
 }
 
 // FQDN built using the zone domain and name (external)
@@ -155,5 +169,5 @@ output "internal_fqdn" {
 
 // The zone id of the ELB
 output "zone_id" {
-  value = "${aws_alb.main.zone_id}"
+  value = "${aws_lb.main.zone_id}"
 }
