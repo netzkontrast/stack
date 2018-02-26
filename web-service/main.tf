@@ -148,9 +148,9 @@ resource "aws_ecs_service" "main" {
   deployment_maximum_percent         = "${var.deployment_maximum_percent}"
 
   load_balancer {
-    elb_name       = "${module.elb.id}"
-    container_name = "${module.task.name}"
-    container_port = "${var.container_port}"
+    target_group_arn  = "${module.elb.target_group_arn}"
+    container_name    = "${module.task.name}"
+    container_port    = "${var.container_port}"
   }
 
   lifecycle {
