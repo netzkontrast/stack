@@ -51,6 +51,20 @@ resource "aws_security_group" "memcached" {
     Service     = "${var.name}"
     Environment = "${var.environment}"
   }
+
+  ingress {
+    from_port       = 11211
+    to_port         = 11211
+    protocol        = "TCP"
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = -1
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
 }
 
 #
