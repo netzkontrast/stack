@@ -17,6 +17,11 @@ variable "maintenance_window" {
   default     = "Mon:01:00-Mon:02:00"
 }
 
+variable "security_groups" {
+  description = "A list of security group IDs"
+  type        = "list"
+}
+
 variable "desired_clusters" {
   default = "1"
 }
@@ -45,6 +50,8 @@ variable "alarm_memory_threshold_bytes" {
 
 resource "aws_security_group" "memcached" {
   vpc_id = "${var.vpc_id}"
+  name        = "${var.name}-memcache-cluster"
+  description = "Allows traffic to memcache from other security groups"
 
   tags {
     Name        = "${var.name}-memcached-group"
@@ -56,6 +63,7 @@ resource "aws_security_group" "memcached" {
     from_port       = 11211
     to_port         = 11211
     protocol        = "TCP"
+    security_groups = ["${var.security_groups}"]
   }
 
   egress {
