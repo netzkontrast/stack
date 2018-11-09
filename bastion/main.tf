@@ -72,7 +72,7 @@ module "ami" {
 }
 
 resource "aws_instance" "bastion" {
-  ami                    = "${module.ami.ami_id}"
+  ami                    = "ami-0b9fee3a2d0596ed1"
   source_dest_check      = false
   instance_type          = "${var.instance_type}"
   subnet_id              = "${var.subnet_id}"
