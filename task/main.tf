@@ -118,7 +118,6 @@ resource "aws_ecs_task_definition" "main" {
     "logConfiguration": {
       "logDriver": "${var.log_driver}",
       "options": {
-        "tag": "${var.name}",
         "awslogs-region": "eu-central-1",
         "awslogs-group": "${aws_cloudwatch_log_group.main.name}"
       }
