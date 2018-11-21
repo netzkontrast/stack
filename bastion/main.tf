@@ -64,12 +64,6 @@ variable "zone_id" {
   description = "Route53 zone ID to use for dns_name"
 }
 
-module "ami" {
-  source        = "github.com/terraform-community-modules/tf_aws_ubuntu_ami/ebs"
-  region        = "${var.region}"
-  distribution  = "trusty"
-  instance_type = "${var.instance_type}"
-}
 
 resource "aws_instance" "bastion" {
   ami                    = "ami-0b9fee3a2d0596ed1"
@@ -85,52 +79,6 @@ resource "aws_instance" "bastion" {
     Name        = "bastion"
     Environment = "${var.environment}"
   }
-
-
-  provisioner "file" {
-    source      = "${format("%s/provision.sh", path.module)}"
-    destination = "/tmp/provision.sh"
-    connection {
-      type     = "ssh"
-      user     = "ubuntu"
-      private_key = "${file(var.private_key_file)}"
-    }
-  }
-
-  provisioner "file" {
-    source      = "${var.private_key_file}"
-    destination = "/home/ubuntu/.ssh/id_rsa"
-    connection {
-      type     = "ssh"
-      user     = "ubuntu"
-      private_key = "${file(var.private_key_file)}"
-    }
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "chmod 400 /home/ubuntu/.ssh/id_rsa",
-    ]
-    connection {
-      type     = "ssh"
-      user     = "ubuntu"
-      private_key = "${file(var.private_key_file)}"
-    }
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "chmod +x /tmp/provision.sh",
-      "/tmp/provision.sh",
-    ]
-    connection {
-      type     = "ssh"
-      user     = "ubuntu"
-      private_key = "${file(var.private_key_file)}"
-    }
-  }
-
-
 }
 
 resource "aws_eip" "bastion" {
