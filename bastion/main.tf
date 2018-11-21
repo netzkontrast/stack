@@ -79,6 +79,11 @@ resource "aws_instance" "bastion" {
     Name        = "bastion"
     Environment = "${var.environment}"
   }
+
+  connection {
+    user = "ubuntu"
+    key_file = "${var.private_key_file}"
+  }
 }
 
 resource "aws_eip" "bastion" {
