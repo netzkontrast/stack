@@ -146,6 +146,7 @@ resource "aws_ecs_service" "main" {
   iam_role                           = "${var.iam_role}"
   deployment_minimum_healthy_percent = "${var.deployment_minimum_healthy_percent}"
   deployment_maximum_percent         = "${var.deployment_maximum_percent}"
+  health_check_grace_period_seconds  = 3600
 
   load_balancer {
     target_group_arn  = "${module.elb.target_group_arn}"
