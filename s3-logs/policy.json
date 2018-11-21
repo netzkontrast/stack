@@ -12,6 +12,15 @@
       "Resource": "arn:aws:s3:::${bucket}/*"
     },
     {
+      "Sid": "AWSConsoleStmt",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "054676820928"
+      },
+      "Action": "s3:PutObject",
+      "Resource": "arn:aws:s3:::${bucket}/*"
+    },
+    {
       "Sid": "AWSLogDeliveryWrite",
       "Effect": "Allow",
       "Principal": {
