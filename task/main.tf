@@ -64,7 +64,7 @@ variable "memory" {
 
 variable "log_driver" {
   description = "The log driver to use use for the container"
-  default     = "syslog"
+  default     = "awslogs"
 }
 
 variable "role" {
