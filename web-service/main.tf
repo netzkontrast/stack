@@ -96,7 +96,7 @@ variable "healthcheck" {
 
 variable "container_port" {
   description = "The container port"
-  default     = 3000
+  default     = 80
 }
 
 variable "command" {
@@ -116,12 +116,12 @@ variable "desired_count" {
 
 variable "memory" {
   description = "The number of MiB of memory to reserve for the container"
-  default     = 512
+  default     = 4096
 }
 
 variable "cpu" {
   description = "The number of cpu units to reserve for the container"
-  default     = 512
+  default     = 1024
 }
 
 variable "deployment_minimum_healthy_percent" {

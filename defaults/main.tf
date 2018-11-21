@@ -26,9 +26,9 @@ variable "default_ecs_ami" {
   default = {
     us-east-1      = "ami-dde4e6ca"
     us-west-1      = "ami-6d21770d"
-    us-west-2      = "ami-97da70f7"
-    eu-west-1      = "ami-c41f3bb7"
-    eu-central-1   = "ami-4ba16024"
+    eu-west-2      = "ami-01bee3897bba49d78"
+    eu-west-1      = "ami-0627e141ce928067c"
+    eu-central-1   = "ami-0eaa3baf6969912ba"
     ap-northeast-1 = "ami-90ea86f7"
     ap-northeast-2 = "ami-8a4b9ce4"
     ap-southeast-1 = "ami-d603afb5"
