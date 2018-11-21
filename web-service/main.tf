@@ -116,12 +116,12 @@ variable "desired_count" {
 
 variable "memory" {
   description = "The number of MiB of memory to reserve for the container"
-  default     = 4096
+  default     = 3072
 }
 
 variable "cpu" {
   description = "The number of cpu units to reserve for the container"
-  default     = 1024
+  default     = 980
 }
 
 variable "deployment_minimum_healthy_percent" {
