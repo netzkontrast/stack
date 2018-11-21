@@ -71,6 +71,7 @@ resource "aws_lb" "main" {
 
   access_logs {
     bucket = "${var.log_bucket}"
+    enabled = true
   }
 
   tags {
