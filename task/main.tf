@@ -82,6 +82,15 @@ variable "hostname" {
  * Resources.
  */
 
+resource "aws_cloudwatch_log_group" "main" {
+  name =  "${var.name}"
+
+  tags {
+    Environment = "dev"
+    Application = "${var.name}"
+  }
+}
+
 # The ECS task definition.
 
 resource "aws_ecs_task_definition" "main" {
@@ -108,6 +117,10 @@ resource "aws_ecs_task_definition" "main" {
     "mountPoints": [],
     "logConfiguration": {
       "logDriver": "${var.log_driver}",
+      "awslogs-region": "eu-central-1",
+      "awslogs-group": "${aws_cloudwatch_log_group.main.name}",
+
+
       "options": {
         "tag": "${var.name}"
       }
